@@ -1,2 +1,2 @@
 # sbm_ina
-Stohastic blockmodels for data clustering
+Stochastic blockmodels for data clustering
