@@ -2,3 +2,5 @@ Orange3
 scikit-learn
 numpy
 fire
+matplotlib
+networkx
