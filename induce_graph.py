@@ -1,4 +1,6 @@
 from functools import partial
+from pprint import pprint
+
 from sklearn import datasets
 
 import graph_tool as gt
@@ -41,10 +43,10 @@ def induce_graph(data, distance='manhattan_invexp', invexp_factor=1):
 
 
 def cutoff(graph, threshold):
-    assert threshold > 0, 'The threshold must be greater than 0.'
+    assert threshold >= 0, 'The threshold must be greater than 0.'
 
     weights = graph.edge_properties['weights']
-    edges_to_remove = [e for e in graph.edges() if weights[e] < threshold]
+    edges_to_remove = [e for e in graph.edges() if weights[e] <= threshold]
 
     for edge in edges_to_remove:
         graph.remove_edge(edge)
@@ -52,10 +54,22 @@ def cutoff(graph, threshold):
     return graph
 
 
+def calculate_cutoff_components(graph, n_tries=10):
+    working_graph = gt.Graph(graph)
+    weights = graph.edge_properties['weights'].get_array()
+
+    max_weight = weights.max()
+
+    results = []
+    for th in np.linspace(0, max_weight, num=n_tries):
+        cutoff(working_graph, th)
+        results.append(tp.label_components(working_graph))
+
+    pprint(results)
+
+
 if __name__ == '__main__':
     iris = datasets.load_iris()
 
     G = induce_graph(iris.data)
-    print(tp.label_components(G))
-    G = cutoff(G, 0.1)
-    print(tp.label_components(G))
+    calculate_cutoff_components(G)
