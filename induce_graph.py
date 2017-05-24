@@ -1,6 +1,8 @@
 from functools import partial
+from sklearn import datasets
 
 import graph_tool as gt
+import graph_tool.topology as tp
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
@@ -36,3 +38,29 @@ def induce_graph(data, distance='manhattan_invexp', invexp_factor=1):
             weights[i, j] = distances[i][j]
 
     return graph
+
+
+def cutoff(graph, threshold):
+    assert 1 > threshold > 0, 'The threshold must be between 0 and 1.'
+
+    weights = graph.edge_properties['weights']
+
+    edges_to_remove = []
+
+    for edge in graph.edges():
+        if weights[edge] < threshold:
+            edges_to_remove.append(edge)
+
+    for edge in edges_to_remove:
+        graph.remove_edge(edge)
+
+    return graph
+
+
+if __name__ == '__main__':
+    iris = datasets.load_iris()
+
+    G = induce_graph(iris.data)
+    print(tp.label_components(G))
+    G = cutoff(G, 0.1)
+    print(tp.label_components(G))
