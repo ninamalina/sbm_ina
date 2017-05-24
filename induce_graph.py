@@ -1,12 +1,15 @@
 from functools import partial
 from pprint import pprint
 
+import fire
 from sklearn import datasets
 
 import graph_tool as gt
 import graph_tool.topology as tp
+from graph_tool.inference import minimize_blockmodel_dl
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
+from sklearn.metrics import normalized_mutual_info_score
 
 DISTANCES = {
     'chebyshev': partial(pdist, metric='chebyshev'),
@@ -45,6 +48,8 @@ def induce_graph(data, distance='manhattan_invexp', invexp_factor=1):
 def cutoff(graph, threshold):
     assert threshold >= 0, 'The threshold must be greater than 0.'
 
+    graph = gt.Graph(graph)
+
     weights = graph.edge_properties['weights']
     edges_to_remove = [e for e in graph.edges() if weights[e] <= threshold]
 
@@ -68,8 +73,20 @@ def calculate_cutoff_components(graph, n_tries=10):
     pprint(results)
 
 
-if __name__ == '__main__':
+def test(threshold, n_tries=10):
     iris = datasets.load_iris()
-
     G = induce_graph(iris.data)
-    calculate_cutoff_components(G)
+    G = cutoff(G, threshold)
+
+    results = []
+    for _ in range(n_tries):
+        blocks = minimize_blockmodel_dl(G)
+        blocks = blocks.get_blocks().get_array()
+
+        results.append(normalized_mutual_info_score(iris.target, blocks))
+
+    print(np.mean(results))
+
+
+if __name__ == '__main__':
+    fire.Fire()
