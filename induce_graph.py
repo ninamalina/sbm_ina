@@ -44,12 +44,7 @@ def cutoff(graph, threshold):
     assert 1 > threshold > 0, 'The threshold must be between 0 and 1.'
 
     weights = graph.edge_properties['weights']
-
-    edges_to_remove = []
-
-    for edge in graph.edges():
-        if weights[edge] < threshold:
-            edges_to_remove.append(edge)
+    edges_to_remove = [e for e in graph.edges() if weights[e] < threshold]
 
     for edge in edges_to_remove:
         graph.remove_edge(edge)
