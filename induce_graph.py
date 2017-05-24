@@ -41,7 +41,7 @@ def induce_graph(data, distance='manhattan_invexp', invexp_factor=1):
 
 
 def cutoff(graph, threshold):
-    assert 1 > threshold > 0, 'The threshold must be between 0 and 1.'
+    assert threshold > 0, 'The threshold must be greater than 0.'
 
     weights = graph.edge_properties['weights']
     edges_to_remove = [e for e in graph.edges() if weights[e] < threshold]
