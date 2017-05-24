@@ -3,14 +3,15 @@ from pprint import pprint
 
 import fire
 from Orange.data import Table
-from sklearn.cluster import KMeans, AgglomerativeClustering, SpectralClustering
+from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score
 
 from induce_graph import ClusteringWithCutoff
 
 DATASETS = {
     'iris': Table('iris'),
-    # 'ecoli': Table('ecoli'),
+    'ecoli': Table('ecoli'),
+    'neki': Data('neki')
 }
 
 CLUSTERING_METHODS = {
@@ -20,6 +21,16 @@ CLUSTERING_METHODS = {
     ),
     'Connected components': ClusteringWithCutoff(),
 }
+
+
+class Data:
+    @property
+    def X(self):
+        return neki
+
+    @property
+    def Y(self):
+        return neki
 
 
 def run():
