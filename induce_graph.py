@@ -2,14 +2,13 @@ from functools import partial
 from pprint import pprint
 
 import fire
-from sklearn import datasets
-
 import graph_tool as gt
 import graph_tool.topology as tp
-from graph_tool.inference import minimize_blockmodel_dl
 import numpy as np
+from graph_tool.inference import minimize_blockmodel_dl
 from scipy.spatial.distance import pdist, squareform
-from sklearn.metrics import normalized_mutual_info_score
+from sklearn import datasets
+from sklearn.metrics import normalized_mutual_info_score, silhouette_score
 
 DISTANCES = {
     'chebyshev': partial(pdist, metric='chebyshev'),
@@ -71,6 +70,33 @@ def calculate_cutoff_components(graph, n_tries=10):
         results.append(tp.label_components(working_graph))
 
     pprint(results)
+
+
+class ClusteringWithCutoff:
+    def fit_predict(self, data, check_interval=5):
+        graph = induce_graph(data)
+
+        result_blocks = []
+
+        weights = graph.edge_properties['weights'].get_array()
+        for threshold in np.linspace(0, weights.max(), check_interval):
+            working_graph = cutoff(graph, threshold)
+            blocks = minimize_blockmodel_dl(working_graph)
+            blocks = blocks.get_blocks().get_array()
+
+            # Silhouette doesn't work if there's only one cluster label
+            if len(np.unique(blocks)) > 1:
+                cutoff_score = silhouette_score(data, blocks)
+                result_blocks.append((cutoff_score, blocks))
+
+        return np.array(max(result_blocks)[1])
+
+
+def test2():
+    predictor = ClusteringWithCutoff()
+    iris = datasets.load_iris()
+    labels = predictor.fit_predict(iris.data)
+    print(labels)
 
 
 def test(threshold, n_tries=10):
