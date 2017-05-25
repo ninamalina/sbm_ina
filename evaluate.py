@@ -1,5 +1,6 @@
 from collections import defaultdict
 from pprint import pprint
+import numpy as np
 
 import fire
 from Orange.data import Table
@@ -8,10 +9,29 @@ from sklearn.metrics import normalized_mutual_info_score, silhouette_score
 
 from induce_graph import ClusteringWithCutoff
 
+
+class Data:
+    def __init__(self, f_name):
+        file = open(f_name)
+        X = []
+        Y = []
+        for line in file:
+            line = line.strip().split(",")
+            X.append(line[:-1])
+            Y.append(line[-1])
+        self.X = np.array(X).astype(float)
+        self.Y = np.array(Y).astype(int)
+
+
 DATASETS = {
     'iris': Table('iris'),
     'ecoli': Table('ecoli'),
-    'neki': Data('neki')
+    # 'yeast': Table('yeast-class-RPR'),
+    'glass': Table('glass'),
+    'wine': Table('wine'),
+    'zoo': Table('zoo'),
+    'movements': Data('datasets/movement_libras.data')
+
 }
 
 CLUSTERING_METHODS = {
@@ -23,14 +43,6 @@ CLUSTERING_METHODS = {
 }
 
 
-class Data:
-    @property
-    def X(self):
-        return neki
-
-    @property
-    def Y(self):
-        return neki
 
 
 def run():
@@ -51,4 +63,6 @@ def run():
 
 
 if __name__ == '__main__':
-    fire.Fire()
+    # fire.Fire()
+    for ds in DATASETS:
+        print(ds, "&", DATASETS[ds].X.shape[0], "&", DATASETS[ds].X.shape[1], "&", len(set(DATASETS[ds].Y)))
