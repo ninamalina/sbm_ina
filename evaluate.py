@@ -26,23 +26,17 @@ class Data:
 DATASETS = {
     'iris': Table('iris'),
     'ecoli': Table('ecoli'),
-    # 'yeast': Table('yeast-class-RPR'),
     'glass': Table('glass'),
     'wine': Table('wine'),
     'zoo': Table('zoo'),
     'movements': Data('datasets/movement_libras.data')
-
 }
 
 CLUSTERING_METHODS = {
     'k-means': KMeans(n_clusters=3, init='random', n_jobs=-1),
-    'Hierarchical clustering': AgglomerativeClustering(
-        n_clusters=3, linkage='complete'
-    ),
+    'Hierarchical clustering': AgglomerativeClustering(n_clusters=3),
     'Connected components': ClusteringWithCutoff(),
 }
-
-
 
 
 def run():

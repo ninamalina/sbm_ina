@@ -1,6 +1,10 @@
 from functools import partial
 from pprint import pprint
 
+import matplotlib
+matplotlib.use('Agg')
+
+
 import fire
 import graph_tool as gt
 import graph_tool.topology as tp
@@ -9,6 +13,8 @@ from graph_tool.inference import minimize_blockmodel_dl
 from scipy.spatial.distance import pdist, squareform
 from sklearn import datasets
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score
+
+import matplotlib.pyplot as plt
 
 DISTANCES = {
     'chebyshev': partial(pdist, metric='chebyshev'),
@@ -99,21 +105,42 @@ def test2():
     print(labels)
 
 
-def test(threshold, n_tries=10):
-    iris = datasets.load_iris()
-    G = induce_graph(iris.data)
-    G = cutoff(G, threshold)
+def clustering_nmi_silhouette(data, y, threshold, n_tries=10):
+    graph = induce_graph(data)
+    graph = cutoff(graph, threshold)
 
-    results = []
+    nmi_scores, silhouette_scores = [], []
     for _ in range(n_tries):
-        blocks = minimize_blockmodel_dl(G)
+        blocks = minimize_blockmodel_dl(graph)
         blocks = blocks.get_blocks().get_array()
 
-        results.append(normalized_mutual_info_score(iris.target, blocks))
+        nmi_scores.append(normalized_mutual_info_score(y, blocks))
+        silhouette_scores.append(silhouette_score(data, blocks)
+                                 if len(np.unique(blocks)) > 1 else 0)
 
-    print(np.mean(results))
+    return np.mean(nmi_scores), np.mean(silhouette_scores)
 
 
+def plot_threshold_components(data, y, split_into=10):
+    graph = induce_graph(data)
+    weights = graph.edge_properties['weights'].get_array()
+
+    nmi_scores, silhouettes_scores = [], []
+    thresholds = np.linspace(0, weights.max(), split_into)
+    for threshold in thresholds:
+        nmi, silhouette = clustering_nmi_silhouette(data, y, threshold)
+        nmi_scores.append(nmi)
+        silhouettes_scores.append(silhouette)
+
+    plt.plot(thresholds, nmi_scores)
+    plt.plot(thresholds, silhouettes_scores)
+    plt.savefig('tmp.png')
+
+
+def plot_iris():
+    data = datasets.load_iris()
+
+    plot_threshold_components(data.data, data.target, split_into=20)
 
 
 if __name__ == '__main__':
