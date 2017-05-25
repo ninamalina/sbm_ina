@@ -57,6 +57,6 @@ def run():
 
 
 if __name__ == '__main__':
-    # fire.Fire()
-    for ds in DATASETS:
-        print(ds, "&", DATASETS[ds].X.shape[0], "&", DATASETS[ds].X.shape[1], "&", len(set(DATASETS[ds].Y)))
+    fire.Fire()
+    # for ds in DATASETS:
+    #     print(ds, "&", DATASETS[ds].X.shape[0], "&", DATASETS[ds].X.shape[1], "&", len(set(DATASETS[ds].Y)))

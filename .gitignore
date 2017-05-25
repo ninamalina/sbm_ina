@@ -1,6 +1,4 @@
 .idea/
-datasets/*
-!datasets/.keep
 venv/
 __pycache__/
 .ipynb_checkpoints/
