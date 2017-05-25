@@ -5,6 +5,7 @@ import matplotlib
 import numpy as np
 from Orange.data import Table
 
+# Use Agg backend so we can generate images inside the docker image
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
