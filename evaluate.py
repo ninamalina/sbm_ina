@@ -7,7 +7,7 @@ from Orange.data import Table
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score
 
-from induce_graph import ClusteringWithCutoff
+from cutoff_clustering import ClusteringWithCutoff
 
 
 class Data:
@@ -62,4 +62,5 @@ def run():
 if __name__ == '__main__':
     fire.Fire()
     # for ds in DATASETS:
-    #     print(ds, "&", DATASETS[ds].X.shape[0], "&", DATASETS[ds].X.shape[1], "&", len(set(DATASETS[ds].Y)))
+    #     print(ds, "&", DATASETS[ds].X.shape[0], "&", DATASETS[ds].X.shape[1],
+    #           "&", len(set(DATASETS[ds].Y)))
