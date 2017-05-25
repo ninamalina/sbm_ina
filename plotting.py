@@ -13,7 +13,7 @@ from induce_graph import induce_graph, sbm_clustering_nmi_silhouette, DISTANCES
 RESULTS_DIR = join(dirname(__file__), 'results')
 
 
-def plot_threshold_sbm_components(dataset, name, split_into=10):
+def plot_threshold_sbm_components(dataset, split_into=10):
     dataset_ = Table(dataset)
     data, y = dataset_.X, dataset_.Y
 
@@ -30,11 +30,11 @@ def plot_threshold_sbm_components(dataset, name, split_into=10):
     plt.plot(thresholds, nmi_scores, label='NMI')
     plt.plot(thresholds, silhouettes_scores, label='Silhouette')
     plt.title('Clustering with SBM with thresholding on %s'
-              % name.title())
+              % dataset.title())
     plt.xlabel('Distance threshold')
     plt.ylabel('Scores')
     plt.legend()
-    plt.savefig('%s/threshold_clustering_%s.png' % (RESULTS_DIR, name))
+    plt.savefig('%s/threshold_clustering_%s.png' % (RESULTS_DIR, dataset))
 
 
 def plot_threshold_sbm_distance_metrics(dataset, split_into=20):
