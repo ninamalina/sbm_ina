@@ -132,9 +132,14 @@ def plot_threshold_components(data, y, split_into=10):
         nmi_scores.append(nmi)
         silhouettes_scores.append(silhouette)
 
-    plt.plot(thresholds, nmi_scores)
-    plt.plot(thresholds, silhouettes_scores)
-    plt.savefig('tmp.png')
+    plt.plot(thresholds, nmi_scores, label='NMI')
+    plt.plot(thresholds, silhouettes_scores, label='Silhouette')
+    plt.title('Clustering using connected components after thresholding on '
+              'Iris')
+    plt.xlabel('Distance threshold')
+    plt.ylabel('Scores')
+    plt.legend()
+    plt.savefig('threshold_clustering_iris.png')
 
 
 def plot_iris():
