@@ -1,11 +1,15 @@
+from os.path import join, dirname
+
+import matplotlib
 import numpy as np
 from Orange.data import Table
-import matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from induce_graph import induce_graph, sbm_clustering_nmi_silhouette, DISTANCES
+
+RESULTS_DIR = join(dirname(__file__), 'results')
 
 
 def plot_threshold_sbm_components(dataset, name, split_into=10):
@@ -24,12 +28,12 @@ def plot_threshold_sbm_components(dataset, name, split_into=10):
 
     plt.plot(thresholds, nmi_scores, label='NMI')
     plt.plot(thresholds, silhouettes_scores, label='Silhouette')
-    plt.title('Clustering using connected components after thresholding on %s'
+    plt.title('Clustering with SBM with thresholding on %s'
               % name.title())
     plt.xlabel('Distance threshold')
     plt.ylabel('Scores')
     plt.legend()
-    plt.savefig('threshold_clustering_%s.png' % name)
+    plt.savefig('%s/threshold_clustering_%s.png' % (RESULTS_DIR, name))
 
 
 def plot_threshold_sbm_distance_metrics(dataset, split_into=20):
@@ -47,12 +51,13 @@ def plot_threshold_sbm_distance_metrics(dataset, split_into=20):
             silhouette_scores.append(silhouette)
 
         plt.plot(thresholds, silhouette_scores, label=metric)
-        plt.title('Clustering using connected components after thresholding '
-                  'on %s' % dataset.title())
+        plt.title('Clustering with SBM after thresholding on %s' %
+                  dataset.title())
         plt.xlabel('Distance threshold')
         plt.ylabel('Silhouette score')
     plt.legend()
-    plt.savefig('threshold_clustering_metrics_%s.png' % dataset)
+    plt.savefig('%s/threshold_clustering_metrics_%s.png' % (
+        RESULTS_DIR, dataset))
 
 
 if __name__ == '__main__':
