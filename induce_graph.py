@@ -2,6 +2,8 @@ from functools import partial
 from pprint import pprint
 
 import matplotlib
+from Orange.data import Table
+
 matplotlib.use('Agg')
 
 
@@ -121,7 +123,7 @@ def clustering_nmi_silhouette(data, y, threshold, n_tries=10):
     return np.mean(nmi_scores), np.mean(silhouette_scores)
 
 
-def plot_threshold_components(data, y, split_into=10):
+def plot_threshold_components(data, y, name, split_into=10):
     graph = induce_graph(data)
     weights = graph.edge_properties['weights'].get_array()
 
@@ -134,18 +136,18 @@ def plot_threshold_components(data, y, split_into=10):
 
     plt.plot(thresholds, nmi_scores, label='NMI')
     plt.plot(thresholds, silhouettes_scores, label='Silhouette')
-    plt.title('Clustering using connected components after thresholding on '
-              'Iris')
+    plt.title('Clustering using connected components after thresholding on %s'
+              % name.title())
     plt.xlabel('Distance threshold')
     plt.ylabel('Scores')
     plt.legend()
-    plt.savefig('threshold_clustering_iris.png')
+    plt.savefig('threshold_clustering_%s.png' % name)
 
 
-def plot_iris():
-    data = datasets.load_iris()
+def plot_data(dataset):
+    data = Table(dataset)
 
-    plot_threshold_components(data.data, data.target, split_into=20)
+    plot_threshold_components(data.X, data.Y, dataset, split_into=20)
 
 
 if __name__ == '__main__':
