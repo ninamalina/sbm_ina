@@ -5,7 +5,8 @@ import numpy as np
 import fire
 from Orange.data import Table
 from sklearn.cluster import KMeans, AgglomerativeClustering
-from sklearn.metrics import normalized_mutual_info_score, silhouette_score
+from sklearn.metrics import normalized_mutual_info_score, silhouette_score, \
+    adjusted_rand_score
 
 from cutoff_clustering import ClusteringWithCutoff
 
@@ -45,6 +46,7 @@ CLUSTERING_METHODS = {
 def run():
     nmi_scores = defaultdict(dict)
     silhouette_scores = defaultdict(dict)
+    ari_scores = defaultdict(dict)
 
     for dataset_name, dataset in DATASETS.items():
         for method_name, method in CLUSTERING_METHODS.items():
@@ -54,9 +56,12 @@ def run():
                 normalized_mutual_info_score(dataset.Y, labels)
             silhouette_scores[dataset_name][method_name] = \
                 silhouette_score(dataset.X, labels)
+            ari_scores[dataset_name][method_name] = \
+                adjusted_rand_score(dataset.Y, labels)
 
     pprint(nmi_scores)
     pprint(silhouette_scores)
+    pprint(ari_scores)
 
 
 if __name__ == '__main__':
