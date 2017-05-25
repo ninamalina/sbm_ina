@@ -29,7 +29,10 @@ DATASETS = {
     'glass': Table('glass'),
     'wine': Table('wine'),
     'zoo': Table('zoo'),
-    'movements': Data('datasets/movement_libras.data')
+    'circular': Table('datasets/circular'),
+    'ina': Table('datasets/ina'),
+    'two_moons': Table('datasets/two_moons'),
+    'movements': Data('datasets/movement_libras.data'),
 }
 
 CLUSTERING_METHODS = {
