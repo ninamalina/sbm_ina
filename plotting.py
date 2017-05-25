@@ -1,5 +1,6 @@
 from os.path import join, dirname
 
+import fire
 import matplotlib
 import numpy as np
 from Orange.data import Table
