@@ -123,7 +123,10 @@ def clustering_nmi_silhouette(data, y, threshold, n_tries=10):
     return np.mean(nmi_scores), np.mean(silhouette_scores)
 
 
-def plot_threshold_components(data, y, name, split_into=10):
+def plot_threshold_components(dataset, name, split_into=10):
+    dataset_ = Table(dataset)
+    data, y = dataset_.X, dataset_.Y
+
     graph = induce_graph(data)
     weights = graph.edge_properties['weights'].get_array()
 
@@ -142,12 +145,6 @@ def plot_threshold_components(data, y, name, split_into=10):
     plt.ylabel('Scores')
     plt.legend()
     plt.savefig('threshold_clustering_%s.png' % name)
-
-
-def plot_data(dataset):
-    data = Table(dataset)
-
-    plot_threshold_components(data.X, data.Y, dataset, split_into=20)
 
 
 def plot_data_distance_metrics(dataset, split_into=20):
