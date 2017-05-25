@@ -150,5 +150,28 @@ def plot_data(dataset):
     plot_threshold_components(data.X, data.Y, dataset, split_into=20)
 
 
+def plot_data_distance_metrics(dataset, split_into=20):
+    dataset_ = Table(dataset)
+    data, y = dataset_.X, dataset_.Y
+
+    for metric in DISTANCES:
+        graph = induce_graph(data, distance='%s_invexp' % metric)
+        weights = graph.edge_properties['weights'].get_array()
+
+        silhouette_scores = []
+        thresholds = np.linspace(0, weights.max(), split_into)
+        for threshold in thresholds:
+            _, silhouette = clustering_nmi_silhouette(data, y, threshold)
+            silhouette_scores.append(silhouette)
+
+        plt.plot(thresholds, silhouette_scores, label=metric)
+        plt.title('Clustering using connected components after thresholding '
+                  'on %s' % dataset.title())
+        plt.xlabel('Distance threshold')
+        plt.ylabel('Silhouette score')
+    plt.legend()
+    plt.savefig('threshold_clustering_metrics_%s.png' % dataset)
+
+
 if __name__ == '__main__':
     fire.Fire()
