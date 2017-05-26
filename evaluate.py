@@ -1,14 +1,14 @@
 from collections import defaultdict
 from pprint import pprint
-import numpy as np
 
 import fire
+import numpy as np
 from Orange.data import Table
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score, \
     adjusted_rand_score
 
-from clustering import ClusteringWithCutoff
+from clustering import ClusteringWithCutoff, SilhoutteSelection
 
 
 class Data:
@@ -38,8 +38,8 @@ DATASETS = {
 
 CLUSTERING_METHODS = {
     # Traditional clustering approaches
-    'k-means': KMeans(n_clusters=3, init='random', n_jobs=-1),
-    'Hierarchical clustering': AgglomerativeClustering(n_clusters=3),
+    'k-means': SilhoutteSelection(KMeans, n_jobs=-1),
+    'Hierarchical clustering': SilhoutteSelection(AgglomerativeClustering),
 
     # Complex networks approachs
     # TODO
