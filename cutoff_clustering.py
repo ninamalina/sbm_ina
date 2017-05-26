@@ -13,7 +13,7 @@ class ClusteringWithCutoff:
 
     """
 
-    def __init__(self, metric='manhattan_invexp', threshold_interval=10):
+    def __init__(self, metric='manhattan_inv', threshold_interval=10):
         self.metric = metric
         self.cutoff_interval = threshold_interval
 

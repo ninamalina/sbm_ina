@@ -45,9 +45,9 @@ CLUSTERING_METHODS = {
     # TODO
 
     # Stochastic block model with thresholding
-    'SBM (Manhattan)': ClusteringWithCutoff('manhattan_manhattan'),
-    'SBM (Euclidean)': ClusteringWithCutoff('euclidean_manhattan'),
-    'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_manhattan'),
+    'SBM (Manhattan)': ClusteringWithCutoff('manhattan_inv'),
+    'SBM (Euclidean)': ClusteringWithCutoff('euclidean_inv'),
+    'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_inv'),
 
     # Weighted stochastic block models
     # TODO

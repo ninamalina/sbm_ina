@@ -15,7 +15,7 @@ DISTANCES = {
 }
 
 
-def induce_graph(data, distance='manhattan_invexp', invexp_factor=1):
+def induce_graph(data, distance='manhattan_inv', invexp_factor=1):
     """Induce a graph from the dataset with distances as weights."""
     # Prepare an empty undirected graph with weights
     graph = gt.Graph(directed=False)
@@ -28,7 +28,7 @@ def induce_graph(data, distance='manhattan_invexp', invexp_factor=1):
     # Compute the pairwise distances
     distances = DISTANCES[distance](data)
     # If we want to take the inverse exponent, apply that as well
-    if inv and inv[0] == 'invexp':
+    if inv and inv[0] == 'inv':
         distances = invexp_factor * np.exp(-invexp_factor * distances)
     # Convert the distances from the upper triangular form
     distances = squareform(distances)
