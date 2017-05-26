@@ -29,10 +29,10 @@ DATASETS = {
     # 'ecoli': Table('ecoli'),
     # 'glass': Table('glass'),
     # 'wine': Table('wine'),
-    'zoo': Table('zoo'),
+    # 'zoo': Table('zoo'),
     # 'circular': Table('datasets/circular'),
-    'ina': Table('datasets/ina'),
-    'two_moons': Table('datasets/two_moons'),
+    # 'ina': Table('datasets/ina'),
+    # 'two_moons': Table('datasets/two_moons'),
     # 'movements': Data('datasets/movement_libras.data'),
 }
 
@@ -72,15 +72,10 @@ def run():
                 adjusted_rand_score(dataset.Y, labels)
             n_clusters[dataset_name][method_name] = np.unique(labels).shape[0]
 
-    pprint(nmi_scores)
-    pprint(silhouette_scores)
-    pprint(ari_scores)
-    pprint(n_clusters)
-
     # Print header
     print(' & '.join([
         'Dataset', 'Clustering method', 'Silhouette score', 'NMI score',
-        'ARI score', '$n$ clusters',
+        'ARI', '$n$ clusters',
     ]), r'\\ \hline')
     # TODO Change this when we agree on a better format for the results table
     for dataset_name in DATASETS:
