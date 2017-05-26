@@ -13,15 +13,15 @@ from clustering import ClusteringWithCutoff, SilhoutteSelection
 
 class Data:
     def __init__(self, f_name):
-        file = open(f_name)
-        X = []
-        Y = []
-        for line in file:
-            line = line.strip().split(",")
-            X.append(line[:-1])
-            Y.append(line[-1])
-        self.X = np.array(X).astype(float)
-        self.Y = np.array(Y).astype(int)
+        with open(f_name) as file:
+            X = []
+            Y = []
+            for line in file:
+                line = line.strip().split(",")
+                X.append(line[:-1])
+                Y.append(line[-1])
+            self.X = np.array(X).astype(float)
+            self.Y = np.array(Y).astype(int)
 
 
 DATASETS = {
