@@ -37,9 +37,20 @@ DATASETS = {
 }
 
 CLUSTERING_METHODS = {
+    # Traditional clustering approaches
     'k-means': KMeans(n_clusters=3, init='random', n_jobs=-1),
     'Hierarchical clustering': AgglomerativeClustering(n_clusters=3),
-    'Connected components': ClusteringWithCutoff(),
+
+    # Complex networks approachs
+    # TODO
+
+    # Stochastic block model with thresholding
+    'SBM (Manhattan)': ClusteringWithCutoff('manhattan_manhattan'),
+    'SBM (Euclidean)': ClusteringWithCutoff('euclidean_manhattan'),
+    'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_manhattan'),
+
+    # Weighted stochastic block models
+    # TODO
 }
 
 

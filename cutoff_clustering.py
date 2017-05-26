@@ -13,14 +13,17 @@ class ClusteringWithCutoff:
 
     """
 
-    @staticmethod
-    def fit_predict(data, check_interval=10):
-        graph = induce_graph(data)
+    def __init__(self, metric='manhattan_invexp', threshold_interval=10):
+        self.metric = metric
+        self.cutoff_interval = threshold_interval
+
+    def fit_predict(self, data):
+        graph = induce_graph(data, distance=self.metric)
 
         result_blocks = []
 
         weights = graph.edge_properties['weights'].get_array()
-        for threshold in np.linspace(0, weights.max(), check_interval):
+        for threshold in np.linspace(0, weights.max(), self.cutoff_interval):
             working_graph = cutoff(graph, threshold, inplace=True)
             # Apply the sbm to the pruned graph
             blocks = minimize_blockmodel_dl(working_graph)
