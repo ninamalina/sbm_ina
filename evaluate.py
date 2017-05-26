@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score, \
     adjusted_rand_score
 
-from cutoff_clustering import ClusteringWithCutoff
+from clustering import ClusteringWithCutoff
 
 
 class Data:
