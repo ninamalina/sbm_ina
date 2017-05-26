@@ -86,7 +86,7 @@ def run():
     for dataset_name in DATASETS:
         for method_name in CLUSTERING_METHODS:
             print(' & '.join([
-                method_name,
+                dataset_name, method_name,
                 '%.4f' % silhouette_scores[dataset_name][method_name],
                 '%.4f' % nmi_scores[dataset_name][method_name],
                 '%.4f' % ari_scores[dataset_name][method_name],
