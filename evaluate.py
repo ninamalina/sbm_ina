@@ -1,5 +1,4 @@
 from collections import defaultdict
-from pprint import pprint
 
 import fire
 import numpy as np
@@ -25,29 +24,29 @@ class Data:
 
 
 DATASETS = {
-    'iris': Table('iris'),
-    # 'ecoli': Table('ecoli'),
+    # 'iris': Table('iris'),
+    'ecoli': Table('ecoli'),
     # 'glass': Table('glass'),
     # 'wine': Table('wine'),
-    'zoo': Table('zoo'),
+    # 'zoo': Table('zoo'),
     # 'circular': Table('datasets/circular'),
-    'ina': Table('datasets/ina'),
-    'two_moons': Table('datasets/two_moons'),
+    # 'ina': Table('datasets/ina'),
+    # 'two_moons': Table('datasets/two_moons'),
     # 'movements': Data('datasets/movement_libras.data'),
 }
 
 CLUSTERING_METHODS = {
     # Traditional clustering approaches
-    # 'k-means': SilhoutteSelection(KMeans, n_jobs=-1),
-    # 'Hierarchical clustering': SilhoutteSelection(AgglomerativeClustering),
+    'k-means': SilhoutteSelection(KMeans, n_jobs=-1),
+    'Hierarchical clustering': SilhoutteSelection(AgglomerativeClustering),
 
     # Complex networks approaches
     # TODO
 
     # Stochastic block model with thresholding
-    # 'SBM (Manhattan)': ClusteringWithCutoff('manhattan_inv'),
-    # 'SBM (Euclidean)': ClusteringWithCutoff('euclidean_inv'),
-    # 'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_inv'),
+    'SBM (Manhattan)': ClusteringWithCutoff('manhattan_inv'),
+    'SBM (Euclidean)': ClusteringWithCutoff('euclidean_inv'),
+    'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_inv'),
 
     # Weighted stochastic block models
     'WSBM (Manhattan)': WSBM('manhattan_inv'),

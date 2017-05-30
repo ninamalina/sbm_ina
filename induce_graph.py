@@ -1,16 +1,14 @@
 import random
+import string
 from functools import partial
+from os import makedirs
+from os.path import exists
 
 import fire
 import graph_tool as gt
 import graph_tool.topology as tp
 import numpy as np
-import string
-from Orange.data import Table
 from graph_tool.inference import minimize_blockmodel_dl
-from os.path import exists, join
-
-from os import makedirs
 from scipy.spatial.distance import pdist, squareform
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score
 
