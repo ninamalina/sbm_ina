@@ -1,9 +1,11 @@
+import random
 from functools import partial
 
 import fire
 import graph_tool as gt
 import graph_tool.topology as tp
 import numpy as np
+import string
 from Orange.data import Table
 from graph_tool.inference import minimize_blockmodel_dl
 from os.path import exists, join
@@ -104,26 +106,23 @@ def sbm_clustering_nmi_silhouette(data, y, threshold, n_tries=10):
     return np.mean(nmi_scores), np.mean(silhouette_scores)
 
 
-def get_wsbm_filename(dataset, metric):
-    return join(INDUCED_GRAPH_DIR, '%s_%s.edges' % (dataset, metric))
-
-
-def save_to_file(dataset, metric, force_integer=False):
-    if not isinstance(dataset, Table):
-        dataset = Table(dataset)
-    graph = induce_graph(dataset, distance=metric)
-
+def save_to_file(graph, force_integer=False):
     if not exists(INDUCED_GRAPH_DIR):
         makedirs(INDUCED_GRAPH_DIR)
 
     weights = graph.edge_properties['weights']
-    fname = get_wsbm_filename(dataset, metric)
+    fname = '%s/%s' % (
+        INDUCED_GRAPH_DIR,
+        ''.join(random.choice(string.ascii_lowercase) for _ in range(32)),
+    )
     with open(fname, 'w') as f:
         for x0, x1 in graph.edges():
             if force_integer:
                 f.write('%d\t%d\t%d\n' % (x0, x1, int(weights[x0, x1] * 1000)))
             else:
                 f.write('%d %d %.16f\n' % (x0, x1, weights[x0, x1]))
+
+    return fname
 
 
 if __name__ == '__main__':

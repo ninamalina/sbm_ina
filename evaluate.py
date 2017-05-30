@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score, \
     adjusted_rand_score
 
-from clustering import ClusteringWithCutoff, SilhoutteSelection
+from clustering import ClusteringWithCutoff, SilhoutteSelection, WSBM
 
 
 class Data:
@@ -38,16 +38,18 @@ DATASETS = {
 
 CLUSTERING_METHODS = {
     # Traditional clustering approaches
-    'k-means': SilhoutteSelection(KMeans, n_jobs=-1),
-    'Hierarchical clustering': SilhoutteSelection(AgglomerativeClustering),
+    # 'k-means': SilhoutteSelection(KMeans, n_jobs=-1),
+    # 'Hierarchical clustering': SilhoutteSelection(AgglomerativeClustering),
 
     # Complex networks approachs
     # TODO
 
     # Stochastic block model with thresholding
-    'SBM (Manhattan)': ClusteringWithCutoff('manhattan_inv'),
-    'SBM (Euclidean)': ClusteringWithCutoff('euclidean_inv'),
-    'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_inv'),
+    # 'SBM (Manhattan)': ClusteringWithCutoff('manhattan_inv'),
+    # 'SBM (Euclidean)': ClusteringWithCutoff('euclidean_inv'),
+    # 'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_inv'),
+
+    'WSBM (Manhattan)': WSBM('manhattan_inv'),
 
     # Weighted stochastic block models
     # TODO

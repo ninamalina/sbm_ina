@@ -1,15 +1,13 @@
 import os
+from os.path import exists, join
 from subprocess import call
 
 import numpy as np
 from graph_tool.inference import minimize_blockmodel_dl
-from os.path import dirname, exists, join
-
 from matplotlib.cbook import mkdirs
 from sklearn.metrics import silhouette_score
 
-from induce_graph import induce_graph, cutoff, save_to_file, INDUCED_GRAPH_DIR, \
-    get_wsbm_filename
+from induce_graph import induce_graph, cutoff, save_to_file
 
 
 class SilhoutteSelection:
@@ -20,6 +18,7 @@ class SilhoutteSelection:
     labelling with the best silhouette score.
 
     """
+
     def __init__(self, method, n_clusters=10, *args, **kwargs):
         self.method = method
         self.n_clusters = n_clusters
@@ -76,25 +75,24 @@ class WSBM:
 
     def fit_predict(self, data):
         graph = induce_graph(data, distance=self.metric)
-        save_to_file(graph, self.metric, force_integer=True)
+        fname = save_to_file(graph, force_integer=True)
 
-        fname = get_wsbm_filename(data, self.metric)
         output_directory = '_labellings'
         if not exists(output_directory):
             mkdirs(output_directory)
-        output_file = join(output_directory, '%s_%s' % data, self.metric)
 
         os.chdir('YWWTools/target')
 
         result_blocks = []
 
         for num_blocks in range(2, 15):
-            call(['java',
-                  '-cp YWWTools.jar:deps.jar yang.weiwei.Tools',
-                  '--tool wsbm',
-                  '--nodes %d' % graph.num_vertices(),
-                  '--blocks %d' % num_blocks,
-                  '--graph ../../%s' % fname,
-                  '--output ../../%s_blocks_%d' % (output_file, num_blocks),
-                  ])
-
+            call(' '.join(
+                ['java',
+                 '-cp YWWTools.jar:deps.jar yang.weiwei.Tools',
+                 '--tool wsbm',
+                 '--nodes %d' % graph.num_vertices(),
+                 '--blocks %d' % num_blocks,
+                 '--graph ../../%s' % fname,
+                 '--output ../../%s_blocks_%d' % (fname, num_blocks),
+                 ]
+            ), shell=True)
