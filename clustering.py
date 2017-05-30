@@ -98,4 +98,11 @@ class WSBM:
                  ]
             ), shell=True)
 
+            blocks = np.genfromtxt(result_fname)
+            score = silhouette_score(data, blocks)
+            result_blocks.append((score, blocks))
+
+        return np.array(max(result_blocks)[1])
+
+
 

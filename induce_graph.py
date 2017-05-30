@@ -118,7 +118,7 @@ def save_to_file(graph, force_integer=False):
     with open(fname, 'w') as f:
         for x0, x1 in graph.edges():
             if force_integer:
-                f.write('%d\t%d\t%d\n' % (x0, x1, int(weights[x0, x1] * 1000)))
+                f.write('%d\t%d\t%d\n' % (x0, x1, int(weights[x0, x1] * 100)))
             else:
                 f.write('%d %d %.16f\n' % (x0, x1, weights[x0, x1]))
 
