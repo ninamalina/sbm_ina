@@ -96,6 +96,7 @@ class WSBM:
                  '--blocks %d' % num_blocks,
                  '--graph ../../%s' % fname,
                  '--output %s' % result_fname,
+                 '--no-verbose',
                  ]
             ), shell=True)
 
