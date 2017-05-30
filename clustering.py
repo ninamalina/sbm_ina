@@ -86,6 +86,7 @@ class WSBM:
         result_blocks = []
 
         for num_blocks in range(2, 15):
+            result_fname = '../../%s_blocks_%d' % (fname, num_blocks)
             call(' '.join(
                 ['java',
                  '-cp YWWTools.jar:deps.jar yang.weiwei.Tools',
@@ -93,6 +94,8 @@ class WSBM:
                  '--nodes %d' % graph.num_vertices(),
                  '--blocks %d' % num_blocks,
                  '--graph ../../%s' % fname,
-                 '--output ../../%s_blocks_%d' % (fname, num_blocks),
+                 '--output %s' % result_fname,
                  ]
             ), shell=True)
+
+
