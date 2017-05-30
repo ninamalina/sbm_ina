@@ -105,8 +105,8 @@ class WSBM:
             result_blocks.append((score, blocks))
             os.remove(result_fname)
 
-        os.remove(fname)
         os.chdir(cwd)
+        os.remove(fname)
         return np.array(max(result_blocks)[1])
 
 
