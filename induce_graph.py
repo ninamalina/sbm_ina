@@ -4,9 +4,15 @@ import fire
 import graph_tool as gt
 import graph_tool.topology as tp
 import numpy as np
+from Orange.data import Table
 from graph_tool.inference import minimize_blockmodel_dl
+from os.path import exists, join
+
+from os import makedirs
 from scipy.spatial.distance import pdist, squareform
 from sklearn.metrics import normalized_mutual_info_score, silhouette_score
+
+INDUCED_GRAPH_DIR = 'induced_graphs'
 
 DISTANCES = {
     'chebyshev': partial(pdist, metric='chebyshev'),
@@ -96,6 +102,19 @@ def sbm_clustering_nmi_silhouette(data, y, threshold, n_tries=10):
         )
 
     return np.mean(nmi_scores), np.mean(silhouette_scores)
+
+
+def save_to_file(dataset, metric):
+    graph = induce_graph(Table(dataset), distance=metric)
+
+    if not exists(INDUCED_GRAPH_DIR):
+        makedirs(INDUCED_GRAPH_DIR)
+
+    weights = graph.edge_properties['weights']
+    fname = join(INDUCED_GRAPH_DIR, '%s_%s.edges' % (dataset, metric))
+    with open(fname, 'w') as f:
+        for x0, x1 in graph.edges():
+            f.write('%d %d %.16f\n' % (x0, x1, weights[x0, x1]))
 
 
 if __name__ == '__main__':
