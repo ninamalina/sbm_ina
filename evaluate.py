@@ -29,10 +29,10 @@ DATASETS = {
     # 'ecoli': Table('ecoli'),
     # 'glass': Table('glass'),
     # 'wine': Table('wine'),
-    # 'zoo': Table('zoo'),
+    'zoo': Table('zoo'),
     # 'circular': Table('datasets/circular'),
-    # 'ina': Table('datasets/ina'),
-    # 'two_moons': Table('datasets/two_moons'),
+    'ina': Table('datasets/ina'),
+    'two_moons': Table('datasets/two_moons'),
     # 'movements': Data('datasets/movement_libras.data'),
 }
 
@@ -41,7 +41,7 @@ CLUSTERING_METHODS = {
     # 'k-means': SilhoutteSelection(KMeans, n_jobs=-1),
     # 'Hierarchical clustering': SilhoutteSelection(AgglomerativeClustering),
 
-    # Complex networks approachs
+    # Complex networks approaches
     # TODO
 
     # Stochastic block model with thresholding
@@ -49,10 +49,10 @@ CLUSTERING_METHODS = {
     # 'SBM (Euclidean)': ClusteringWithCutoff('euclidean_inv'),
     # 'SBM (Chebyshev)': ClusteringWithCutoff('chebyshev_inv'),
 
-    'WSBM (Manhattan)': WSBM('manhattan_inv'),
-
     # Weighted stochastic block models
-    # TODO
+    'WSBM (Manhattan)': WSBM('manhattan_inv'),
+    'WSBM (Euclidean)': WSBM('euclidean_inv'),
+    'WSBM (Chebyshev)': WSBM('chebyshev_inv'),
 }
 
 
