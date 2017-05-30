@@ -3,9 +3,13 @@ from subprocess import call
 
 import numpy as np
 from graph_tool.inference import minimize_blockmodel_dl
+from os.path import dirname, exists, join
+
+from matplotlib.cbook import mkdirs
 from sklearn.metrics import silhouette_score
 
-from induce_graph import induce_graph, cutoff, save_to_file, INDUCED_GRAPH_DIR
+from induce_graph import induce_graph, cutoff, save_to_file, INDUCED_GRAPH_DIR, \
+    get_wsbm_filename
 
 
 class SilhoutteSelection:
@@ -64,3 +68,33 @@ class ClusteringWithCutoff:
                 result_blocks.append((cutoff_score, blocks))
 
         return np.array(max(result_blocks)[1])
+
+
+class WSBM:
+    def __init__(self, metric='manhattan_inv'):
+        self.metric = metric
+
+    def fit_predict(self, data):
+        graph = induce_graph(data, distance=self.metric)
+        save_to_file(graph, self.metric, force_integer=True)
+
+        fname = get_wsbm_filename(data, self.metric)
+        output_directory = '_labellings'
+        if not exists(output_directory):
+            mkdirs(output_directory)
+        output_file = join(output_directory, '%s_%s' % data, self.metric)
+
+        os.chdir('YWWTools/target')
+
+        result_blocks = []
+
+        for num_blocks in range(2, 15):
+            call(['java',
+                  '-cp YWWTools.jar:deps.jar yang.weiwei.Tools',
+                  '--tool wsbm',
+                  '--nodes %d' % graph.num_vertices(),
+                  '--blocks %d' % num_blocks,
+                  '--graph ../../%s' % fname,
+                  '--output ../../%s_blocks_%d' % (output_file, num_blocks),
+                  ])
+
