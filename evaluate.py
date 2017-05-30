@@ -73,6 +73,8 @@ def run():
             ari_scores[dataset_name][method_name] = \
                 adjusted_rand_score(dataset.Y, labels)
             n_clusters[dataset_name][method_name] = np.unique(labels).shape[0]
+            print('Finished evaluating `%s` with `%s`.' % (
+                dataset_name, method_name))
 
     # Print header
     print(' & '.join([
