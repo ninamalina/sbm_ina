@@ -81,6 +81,7 @@ class WSBM:
         if not exists(output_directory):
             mkdirs(output_directory)
 
+        cwd = os.getcwd()
         os.chdir('YWWTools/target')
 
         result_blocks = []
@@ -102,6 +103,7 @@ class WSBM:
             score = silhouette_score(data, blocks)
             result_blocks.append((score, blocks))
 
+        os.chdir(cwd)
         return np.array(max(result_blocks)[1])
 
 
