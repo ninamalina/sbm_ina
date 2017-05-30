@@ -103,7 +103,9 @@ class WSBM:
             blocks = np.genfromtxt(result_fname)
             score = silhouette_score(data, blocks)
             result_blocks.append((score, blocks))
+            os.remove(result_fname)
 
+        os.remove(fname)
         os.chdir(cwd)
         return np.array(max(result_blocks)[1])
 
