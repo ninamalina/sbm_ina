@@ -104,17 +104,26 @@ def sbm_clustering_nmi_silhouette(data, y, threshold, n_tries=10):
     return np.mean(nmi_scores), np.mean(silhouette_scores)
 
 
-def save_to_file(dataset, metric):
-    graph = induce_graph(Table(dataset), distance=metric)
+def get_wsbm_filename(dataset, metric):
+    return join(INDUCED_GRAPH_DIR, '%s_%s.edges' % (dataset, metric))
+
+
+def save_to_file(dataset, metric, force_integer=False):
+    if not isinstance(dataset, Table):
+        dataset = Table(dataset)
+    graph = induce_graph(dataset, distance=metric)
 
     if not exists(INDUCED_GRAPH_DIR):
         makedirs(INDUCED_GRAPH_DIR)
 
     weights = graph.edge_properties['weights']
-    fname = join(INDUCED_GRAPH_DIR, '%s_%s.edges' % (dataset, metric))
+    fname = get_wsbm_filename(dataset, metric)
     with open(fname, 'w') as f:
         for x0, x1 in graph.edges():
-            f.write('%d %d %.16f\n' % (x0, x1, weights[x0, x1]))
+            if force_integer:
+                f.write('%d\t%d\t%d\n' % (x0, x1, int(weights[x0, x1] * 1000)))
+            else:
+                f.write('%d %d %.16f\n' % (x0, x1, weights[x0, x1]))
 
 
 if __name__ == '__main__':
