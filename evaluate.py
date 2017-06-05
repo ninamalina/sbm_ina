@@ -93,6 +93,14 @@ def run():
         print(r'\hline')
 
 
+def get_labels():
+    for dataset_name, dataset in DATASETS.items():
+        for method_name, method in CLUSTERING_METHODS.items():
+            labels = method.fit_predict(dataset.X)
+            np.savetxt('_labellings/%s_%s.csv' %
+                       (dataset_name, method_name), labels.astype(np.int16))
+
+
 if __name__ == '__main__':
     fire.Fire()
     # for ds in DATASETS:
