@@ -1,3 +1,4 @@
+
 %% bare_conf.tex
 %% V1.3
 %% 2007/01/11
@@ -38,7 +39,7 @@
 %% ** Modified files should be clearly indicated as such, including  **
 %% ** renaming them and changing author support contact information. **
 %%
-%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
 %%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
 %%*************************************************************************
 
@@ -445,7 +446,7 @@ It has been shown that community detection algorithms work better for clustering
 \IEEEpeerreviewmaketitle
 
 \section{Introduction}
-Clustering methods are one of the fundamental topics in machine learning since they can be used to detect structure in unlabelled data. As this is such a broadly applicable task, many solutions have been proposed~\cite{theodoridis2003pattern}, the most popular of which is k-means~\cite{macqueen1967some}, due to its simplicity, fast execution time and good performance. However, k-means and other traditional machine learning approaches to clustering suffer from certain drawbacks. In many cases, the $k$ number of clusters must be predefined i.e. we must know in advance how many clusters appear in the data. Furthermore, most of these techniques produce clusters of circular geometric shapes (this is especially true for k-means). These are both undesirable properties, since we can rarely know the correct number of clusters in advance, or that clusters appear in a particular shape.
+Clustering methods are one of the fundamental topics in machine learning since they can be used to detect structure in unlabelled data. As this is such a broadly applicable task, many solutions have been proposed~\cite{theodoridis2003pattern}, the most popular of which is k-means~\cite{macqueen1967some}, due to its simplicity, fast execution time and good performance. However, k-means and other traditional machine learning approaches to clustering suffer from certain drawbacks. In many cases, the number of clusters $k$ must be predefined i.e. we must know in advance how many clusters appear in the data. Furthermore, most of these techniques produce clusters of circular geometric shapes (this is especially true for k-means). These are both undesirable properties, since we can rarely know the correct number of clusters in advance, or that clusters appear in a particular shape.
 
 The idea to use community detection algorithms for the clustering task was first proposed in 2008~\cite{de2008data}. The suggested approach was robust in finding clusters of different shapes, but the number of clusters still had to be provided. However, the authors considered only a single community detection algorithm with a single metric.
 % TODO Describe what rodrigues did in his work: Please briefly describe what the authors did, and also what are community detection methods and why one has to decide for a certain metric. This might not be immediately clear to a reader that is not familiar with the topic.
@@ -464,7 +465,7 @@ The stochastic block model (SBM)~\cite{holland1983stochastic} is a generative mo
 
 The stochastic block model can generate a wide variety of patterns that appear in network analysis including assortative, disassortative and core-periphery structures. However, this probabilistic model assumes an unweighted network. To remedy this, weighted networks are most often simplified into unweighted networks by applying a single global threshold.
 
-This is problematic, since Aicher et al.~\cite{aicher2013adapting} showed that there are cases where this approach will never yield the correct block structure for any thershold value. Applying a single global threshold completely discards any local information that may be encoded within the edge weights. They propose a generalization of the stochastic block model, the weighted stochastic block model (WSBM) which removes the need for thresholding altogether. The model assumes that the weights are exponentially distributed and accepts a parameter $\alpha$ which balances the information gained from a missing edge and an edge with weight 0.
+This is problematic, since Aicher et al.~\cite{aicher2013adapting} showed that there are cases where this approach will never yield the correct block structure for any thershold value. Applying a single global threshold completely discards any local information that may be encoded within the edge weights. They propose a generalization of the stochastic block model, the weighted stochastic block model (WSBM) which removes the need for thresholding altogether. The model assumes that the weights are exponentially distributed and accepts a parameter $\alpha$ which balances the information gained from a missing edge and an edge with zero weight.
 
 \subsection{Representing tabular data as a network}
 
@@ -485,7 +486,7 @@ The first step of any clustering using complex networks approaches requires the 
 
 In the formulae above, $x, y \in {\rm I\!R}^n$ denote data points with $n$ features. Metrics 1 and 2 are chosen because were shown to produce small error rates in work of Rodrigues et al.~\cite{rodrigues2011complex}. In networks, where these two measures work poorly, we also consider the exponential of Euclidean distance.
 
-We only consider exponential distances since they have the desirable property of being limited to the interval $\left [ 0, 1 \right ]$. Moreover, a larger exponential distance indicates more similarity, whereas the opposite is true for their non-exponential versions. This is conceptually more sound, since we would intuitively assign larger values to data points which are more similar.
+We only consider exponential distances since they have the desirable property of being limited to the interval $\left [ 0, 1 \right ]$. Moreover, a larger exponential distance indicates greater similarity, whereas the opposite is true for their non-exponential versions. This is conceptually more sound, since we would intuitively assign larger values to data points which are more similar.
 
 Using only the exponential variants of the distance metrics, we also satisfy the requirement imposed by the WSBM: that the edge weights in a network must be exponentially distributed.
 
@@ -598,7 +599,7 @@ The dataset characteristics are summarized in Table~\ref{tab:datasets}.
 
 \subsection{Results}
 
-We compare the SBM with thresholding and the WSBM with two popular clustering approaches: k-means and hierarchical clustering with ward linkage. Since none of these methods can infer the optimal number of clusters automatically, we select the best clusterings with regard to the silhouette score.
+We compare the SBM with thresholding and the WSBM with two popular clustering approaches: k-means and hierarchical clustering with Ward linkage. Since none of these methods can infer the optimal number of clusters automatically, we select the best clusterings with regard to the silhouette score.
 
 To evaluate different clustering methods, we use three popular metrics: the adjusted Rand index or ARI~\cite{hubert1985comparing} (see Equation ~\ref{eq:ari}), normalized mutual information score (see Equation~\ref{eq:nmi}) and the silhouette score (see Equation~\ref{eq:silhouette}). The ARI is a variant of the Rand index that is corrected for chance and is used to measure the similarity between two clusterings.
 
@@ -612,9 +613,9 @@ We present the most interesting results obtained in Table~\ref{tab:results} (the
   \centering
   \begin{tabular}{c | c | c c c | c}
     Dataset & Method & Silhouette & NMI & ARI & Clusters \\ \hline
-    Iris & k-means & 0.6808 & 0.6793 & 0.5399 & 2 \\
+    Iris & k-means & \textbf{0.6808} & 0.6793 & 0.5399 & 2 \\
     Iris & Hierarchical clustering & \textbf{0.6864} & \textbf{0.7612} & \textbf{0.5681} & 2 \\
-    Iris & SBM & 0.3916 & 0.6752 & 0.5703 & 7 \\
+    Iris & SBM & 0.3916 & 0.6752 & \textbf{0.5703} & 7 \\
     Iris & WSBM & \textbf{0.6864} & \textbf{0.7612} & \textbf{0.5681} & 2 \\
     \textit{Iris} & \textit{WSBM (known)} & \textit{0.5171} & \textit{0.7206} & \textit{0.6906} & \textit{3} \\
     \hline
@@ -624,8 +625,8 @@ We present the most interesting results obtained in Table~\ref{tab:results} (the
     Ecoli & WSBM & 0.4263 & \textbf{0.6827} & \textbf{0.7261} & 4 \\
     \textit{Ecoli} & \textit{WSBM (known)} & \textit{0.2022} & \textit{0.5724} & \textit{0.4363} & \textit{8} \\
     \hline
-    Zoo & k-means & 0.4177 & 0.8172 & 0.8418 & 6 \\
-    Zoo & Hierarchical clustering & \textbf{0.4288} & 0.8485 & \textbf{0.8483} & 7 \\
+    Zoo & k-means & 0.4177 & 0.8172 & \textbf{0.8418} & 6 \\
+    Zoo & Hierarchical clustering & \textbf{0.4288} & \textbf{0.8485} & \textbf{0.8483} & 7 \\
     Zoo & SBM & 0.3811 & \textbf{0.8503} & 0.8137 & 5 \\
     Zoo & WSBM & 0.3191 & 0.7939 & 0.5243 & 11 \\
     \textit{Zoo} & \textit{WSBM (known)} & \textit{0.1258} & \textit{0.6229} & \textit{0.3602} & \textit{7} \\
@@ -637,10 +638,10 @@ We present the most interesting results obtained in Table~\ref{tab:results} (the
     % % TODO Calculate this, or not, since the results are quite bad :)
     % \textit{Glass} & \textit{WSBM (known)} & \textit{?} & \textit{?} & \textit{?} & \textit{?} \\
     % \hline
-    Two Moons & k-means & \textbf{0.5753} & 0.5795 & 0.2533 & 8 \\
-    Two Moons & Hierarchical clustering & 0.5717 & \textbf{0.5807} & \textbf{0.2581} & 8 \\
+    Two Moons & k-means & \textbf{0.5753} & \textbf{0.5795} & \textbf{0.2533} & 8 \\
+    Two Moons & Hierarchical clustering & \textbf{0.5717} & \textbf{0.5807} & \textbf{0.2581} & 8 \\
     Two Moons & SBM & 0.5293 & 0.4944 & 0.1180 & 18 \\
-    Two Moons & WSBM & 0.5692 & 0.5800 & 0.2550 & 8 \\
+    Two Moons & WSBM & \textbf{0.5692} & \textbf{0.5800} & \textbf{0.2550} & 8 \\
     \textit{Two Moons} & \textit{WSBM (known)} & \textit{0.4686} & \textit{0.2063} & \textit{0.2675} & \textit{2} \\
     \hline
     INA & k-means & \textbf{0.5466} & \textbf{0.8238} & \textbf{0.7538} & 2 \\
@@ -650,7 +651,7 @@ We present the most interesting results obtained in Table~\ref{tab:results} (the
     \textit{INA} & \textit{WSBM (known)} & \textit{0.4463} & \textit{0.7529} & \textit{0.6966} & \textit{3} \\
     \hline
     Circular & k-means & 0.4279 & 0.2706 & 0.0747 & 7 \\
-    Circular & Hierarchical clustering & 0.4045 & 0.3324 & 0.0813 & 9 \\
+    Circular & Hierarchical clustering & 0.4045 & 0.3324 & \textbf{0.0813} & 9 \\
     Circular & SBM & \textbf{0.5485} & \textbf{0.4901} & 0.0666 & 28 \\
     Circular & WSBM & 0.4178 & 0.3335 & \textbf{0.0894} & 8 \\
     \textit{Circular} & \textit{WSBM (known)} & \textit{0.2619} & \textit{0.2367} & \textit{0.1167} & \textit{3} \\
@@ -740,11 +741,11 @@ In the presented work, we study stochastic block models and their generalization
   \centering
   \begin{tabular}{c | c | c c c | c}
     Dataset & Method & Silhouette & NMI & ARI & clusters \\ \hline
-    Iris & k-means & 0.6808 & 0.6793 & 0.5399 & 2 \\
+    Iris & k-means & \textbf{0.6808} & 0.6793 & 0.5399 & 2 \\
     Iris & Hierarchical clustering & \textbf{0.6864} & \textbf{0.7612} & \textbf{0.5681} & 2 \\
     Iris & SBM (Manhattan) & 0.3916 & 0.6752 & 0.5703 & 7 \\
     Iris & SBM (Euclidean) & 0.3855 & 0.6283 & 0.5517 & 7 \\
-    Iris & SBM (Chebyshev) & 0.3889 & 0.6661 & 0.5673 & 6 \\
+    Iris & SBM (Chebyshev) & 0.3889 & 0.6661 & \textbf{0.5673} & 6 \\
     Iris & WSBM (Manhattan) & \textbf{0.6864} & \textbf{0.7612} & \textbf{0.5681} & 2 \\
     Iris & WSBM (Euclidean) & \textbf{0.6864} & \textbf{0.7612} & \textbf{0.5681} & 2 \\
     Iris & WSBM (Chebyshev) & \textbf{0.6864} & \textbf{0.7612} & \textbf{0.5681} & 2 \\
@@ -755,13 +756,13 @@ In the presented work, we study stochastic block models and their generalization
     Ecoli & SBM (Manhattan) & 0.0694 & 0.4821 & 0.1801 & 20 \\
     Ecoli & SBM (Euclidean) & 0.1458 & 0.1964 & -0.0182 & 3 \\
     Ecoli & SBM (Chebyshev) & \textbf{0.5524} & 0.2057 & 0.0380 & 2 \\
-    Ecoli & WSBM (Manhattan) & 0.4263 & 0.6827 & 0.7261 & 4 \\
+    Ecoli & WSBM (Manhattan) & 0.4263 & \textbf{0.6827} & \textbf{0.7261} & 4 \\
     Ecoli & WSBM (Euclidean) & 0.4288 & \textbf{0.6860} & \textbf{0.7310} & 4 \\
     Ecoli & WSBM (Chebyshev) & 0.4115 & 0.6425 & 0.6803 & 4 \\
 
     \hline
-    Zoo & k-means & 0.4177 & 0.8172 & 0.8418 & 6 \\
-    Zoo & Hierarchical clustering & \textbf{0.4288} & 0.8485 & \textbf{0.8483} & 7 \\
+    Zoo & k-means & 0.4177 & 0.8172 & \textbf{0.8418} & 6 \\
+    Zoo & Hierarchical clustering & \textbf{0.4288} & \textbf{0.8485} & \textbf{0.8483} & 7 \\
     Zoo & SBM (Manhattan) & 0.3811 & \textbf{0.8503} & 0.8137 & 5 \\
     Zoo & SBM (Euclidean) & 0.3999 & 0.8011 & 0.8089 & 5 \\
     Zoo & SBM (Chebyshev) & 0.3065 & 0.4778 & 0.3143 & 3 \\
@@ -771,7 +772,7 @@ In the presented work, we study stochastic block models and their generalization
 
     \hline
     Glass & k-means & \textbf{0.5891} & \textbf{0.4409} & \textbf{0.2549} & 4 \\
-    Glass & Hierarchical clustering & 0.5888 & 0.3953 & 0.2311 & 4 \\
+    Glass & Hierarchical clustering & \textbf{0.5888} & 0.3953 & 0.2311 & 4 \\
     Glass & SBM (Manhattan) & 0.1187 & 0.3546 & 0.1308 & 9 \\
     Glass & SBM (Euclidean) & 0.1042 & 0.3662 & 0.1619 & 8 \\
     Glass & SBM (Chebyshev) & 0.3398 & 0.3615 & 0.2345 & 5 \\
@@ -780,7 +781,7 @@ In the presented work, we study stochastic block models and their generalization
     Glass & WSBM (Chebyshev) & 0.5446 & 0.3612 & 0.2259 & 2 \\
 
     \hline
-    Movements & k-means & 0.2399 & 0.4750 & 0.2385 & 8 \\
+    Movements & k-means & \textbf{0.2399} & 0.4750 & 0.2385 & 8 \\
     Movements & Hierarchical clustering & \textbf{0.2400} & 0.5219 & 0.2241 & 9 \\
     Movements & SBM (Manhattan) & -0.0842 & 0.1402 & 0.0052 & 2 \\
     Movements & SBM (Euclidean) & 0.1497 & 0.6213 & \textbf{0.3114} & 24 \\
@@ -792,7 +793,7 @@ In the presented work, we study stochastic block models and their generalization
 
     \hline
     Two Moons & k-means & \textbf{0.5753} & 0.5795 & 0.2533 & 8 \\
-    Two Moons & Hierarchical clustering & 0.5717 & 0.5807 & 0.2581 & 8 \\
+    Two Moons & Hierarchical clustering & \textbf{0.5717} & 0.5807 & 0.2581 & 8 \\
     Two Moons & SBM (Manhattan) & 0.5293 & 0.4944 & 0.1180 & 18 \\
     Two Moons & SBM (Euclidean) & 0.5489 & 0.5162 & 0.1486 & 14 \\
     Two Moons & SBM (Chebyshev) & 0.4732 & 0.4937 & 0.1198 & 19 \\
